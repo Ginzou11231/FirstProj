@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class UnitTextField : UITextField{
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
@@ -68,7 +69,7 @@ class SetupPageViewController: UIViewController {
             SetButton.isSelected = true
             SetButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             SetButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            SetButton.addTarget(self, action: #selector(self.RightViewButton(sender:)), for: .touchDown)
+            SetButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
             text.rightView = SetButton
             text.rightViewMode = .always
             text.isSecureTextEntry = true
@@ -77,14 +78,14 @@ class SetupPageViewController: UIViewController {
             ConfirmButton.isSelected = true
             ConfirmButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             ConfirmButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            ConfirmButton.addTarget(self, action: #selector(self.RightViewButton(sender:)), for: .touchDown)
+            ConfirmButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
             text.rightView = ConfirmButton
             text.rightViewMode = .always
             text.isSecureTextEntry = true
         }
     }
     
-    @objc func RightViewButton(sender:UIButton){
+    @objc func RightBtnAction(sender:UIButton){
         if sender == SetButton{
             if sender.isSelected{
                 SetTextField.isSecureTextEntry = false
@@ -112,7 +113,7 @@ class SetupPageViewController: UIViewController {
     
     @IBAction func DoneButton(_ sender : UIButton){
         
-        if SetTextField.text?.isEmpty == true{
+        if let aaa = SetTextField.text?.isEmpty , aaa{
             let alertController = UIAlertController(title: "Error", message: "SetPassword is Empty", preferredStyle: .alert)
             let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
             alertController.addAction(alertaction)
@@ -139,12 +140,16 @@ class SetupPageViewController: UIViewController {
             present(alertController, animated: true,completion: nil)
             return
         }
-        
-        
-        let alertController = UIAlertController(title: "clear", message: "check done but no working", preferredStyle: .alert)
-        let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
+
+        let alertController = UIAlertController(title: "Done", message: "Password Setting is Complete", preferredStyle: .alert)
+        let alertaction = UIAlertAction(title: "OK", style: .default,
+                                        handler: {action in
+            /* save model in phone */
+            
+            self.dismiss(animated: true)
+        })
         alertController.addAction(alertaction)
         present(alertController, animated: true,completion: nil)
-        
     }
+    
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ForgatPageViewController: UIViewController {
     
@@ -57,14 +58,14 @@ class ForgatPageViewController: UIViewController {
             RightButton.isSelected = true
             RightButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             RightButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            RightButton.addTarget(self, action: #selector(self.RightViewButton(sender:)), for: .touchDown)
+            RightButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
             text.rightView = RightButton
             text.rightViewMode = .always
             text.isSecureTextEntry = true
         }
     }
     
-    @objc func RightViewButton(sender:UIButton){
+    @objc func RightBtnAction(sender:UIButton){
         if sender.isSelected{
             PasswordTextField.isSecureTextEntry = false
             RightButton.isSelected = false

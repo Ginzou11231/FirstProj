@@ -14,9 +14,15 @@
 		68FAABCE2A0D519F0064783C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68FAABCC2A0D519F0064783C /* Main.storyboard */; };
 		68FAABD02A0D51A10064783C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68FAABCF2A0D51A10064783C /* Assets.xcassets */; };
 		68FAABD32A0D51A10064783C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68FAABD12A0D51A10064783C /* LaunchScreen.storyboard */; };
-		68FAABDB2A0D6A590064783C /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABDA2A0D6A590064783C /* TestViewController.swift */; };
 		68FAABDD2A0DB8C70064783C /* ForgatPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABDC2A0DB8C70064783C /* ForgatPage.swift */; };
 		68FAABDF2A0DC0940064783C /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABDE2A0DC0940064783C /* LoginPage.swift */; };
+		68FAABE12A1184B40064783C /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABE02A1184B40064783C /* HomePage.swift */; };
+		68FAABE32A1188EE0064783C /* FolderPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABE22A1188EE0064783C /* FolderPage.swift */; };
+		68FAABE52A1188FF0064783C /* GeneratorPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABE42A1188FF0064783C /* GeneratorPage.swift */; };
+		68FAABE72A1189080064783C /* MorePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABE62A1189080064783C /* MorePage.swift */; };
+		68FAABE92A118C5D0064783C /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABE82A118C5D0064783C /* TabbarController.swift */; };
+		68FAABED2A17007A0064783C /* HomeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABEC2A17007A0064783C /* HomeCollectionCell.swift */; };
+		68FAABF12A171BAB0064783C /* AddPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABF02A171BAB0064783C /* AddPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +34,15 @@
 		68FAABCF2A0D51A10064783C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68FAABD22A0D51A10064783C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68FAABD42A0D51A10064783C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68FAABDA2A0D6A590064783C /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		68FAABDC2A0DB8C70064783C /* ForgatPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgatPage.swift; sourceTree = "<group>"; };
 		68FAABDE2A0DC0940064783C /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		68FAABE02A1184B40064783C /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		68FAABE22A1188EE0064783C /* FolderPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPage.swift; sourceTree = "<group>"; };
+		68FAABE42A1188FF0064783C /* GeneratorPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorPage.swift; sourceTree = "<group>"; };
+		68FAABE62A1189080064783C /* MorePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorePage.swift; sourceTree = "<group>"; };
+		68FAABE82A118C5D0064783C /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		68FAABEC2A17007A0064783C /* HomeCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionCell.swift; sourceTree = "<group>"; };
+		68FAABF02A171BAB0064783C /* AddPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPage.swift; sourceTree = "<group>"; };
 		9DFD265FDBAACE9E2921E966 /* Pods_FirstProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirstProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5BA131CC56AF4F7469DA8B7 /* Pods-FirstProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.debug.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.debug.xcconfig"; sourceTree = "<group>"; };
 		F3D3E8E483A48EA928F18FFF /* Pods-FirstProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.release.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -91,7 +103,13 @@
 				68FAABCA2A0D519F0064783C /* SetupPage.swift */,
 				68FAABDC2A0DB8C70064783C /* ForgatPage.swift */,
 				68FAABDE2A0DC0940064783C /* LoginPage.swift */,
-				68FAABDA2A0D6A590064783C /* TestViewController.swift */,
+				68FAABE82A118C5D0064783C /* TabbarController.swift */,
+				68FAABE02A1184B40064783C /* HomePage.swift */,
+				68FAABEC2A17007A0064783C /* HomeCollectionCell.swift */,
+				68FAABF02A171BAB0064783C /* AddPage.swift */,
+				68FAABE22A1188EE0064783C /* FolderPage.swift */,
+				68FAABE42A1188FF0064783C /* GeneratorPage.swift */,
+				68FAABE62A1189080064783C /* MorePage.swift */,
 				68FAABCC2A0D519F0064783C /* Main.storyboard */,
 				68FAABCF2A0D51A10064783C /* Assets.xcassets */,
 				68FAABD12A0D51A10064783C /* LaunchScreen.storyboard */,
@@ -215,12 +233,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68FAABED2A17007A0064783C /* HomeCollectionCell.swift in Sources */,
 				68FAABCB2A0D519F0064783C /* SetupPage.swift in Sources */,
 				68FAABC72A0D519F0064783C /* AppDelegate.swift in Sources */,
-				68FAABDB2A0D6A590064783C /* TestViewController.swift in Sources */,
+				68FAABE72A1189080064783C /* MorePage.swift in Sources */,
+				68FAABE92A118C5D0064783C /* TabbarController.swift in Sources */,
 				68FAABC92A0D519F0064783C /* SceneDelegate.swift in Sources */,
+				68FAABE52A1188FF0064783C /* GeneratorPage.swift in Sources */,
+				68FAABE12A1184B40064783C /* HomePage.swift in Sources */,
 				68FAABDF2A0DC0940064783C /* LoginPage.swift in Sources */,
 				68FAABDD2A0DB8C70064783C /* ForgatPage.swift in Sources */,
+				68FAABF12A171BAB0064783C /* AddPage.swift in Sources */,
+				68FAABE32A1188EE0064783C /* FolderPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
