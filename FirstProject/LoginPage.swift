@@ -39,7 +39,7 @@ class LoginPageViewController: UIViewController {
         ForgatButton.backgroundColor = .clear
         ForgatButton.setTitle("Forgat Password >", for: .normal)
         ForgatButton.setTitleColor(.orange, for: .normal)
-        ForgatButton.addTarget(self, action: #selector(GoToForgatPage(sender:)), for: .touchDown)
+        ForgatButton.addTarget(self, action: #selector(GoToForgatPage(sender:)), for: .touchUpInside)
         
         PasswordTextField.backgroundColor = .white
         PasswordTextField.layer.cornerRadius = 20
@@ -52,7 +52,7 @@ class LoginPageViewController: UIViewController {
         RightButton.isSelected = true
         RightButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
         RightButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-        RightButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
+        RightButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
         PasswordTextField.rightView = RightButton
         PasswordTextField.rightViewMode = .always
         PasswordTextField.isSecureTextEntry = true

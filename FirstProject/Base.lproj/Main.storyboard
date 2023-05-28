@@ -180,7 +180,7 @@
                                     <constraint firstAttribute="height" constant="40" id="lcz-dK-uoi"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="D O N E">
+                                <buttonConfiguration key="configuration" style="plain" image="doc.on.doc" catalog="system" title="D O N E">
                                     <backgroundConfiguration key="background" cornerRadius="45">
                                         <color key="backgroundColor" systemColor="systemYellowColor"/>
                                     </backgroundConfiguration>
@@ -455,6 +455,7 @@
     <resources>
         <image name="BG" width="375" height="667"/>
         <image name="Loading_Logo" width="93" height="79"/>
+        <image name="doc.on.doc" catalog="system" width="116" height="128"/>
         <image name="icon_folder" width="40" height="40"/>
         <image name="icon_generator" width="40" height="40"/>
         <image name="icon_home" width="40" height="40"/>

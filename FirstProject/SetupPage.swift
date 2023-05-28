@@ -69,7 +69,7 @@ class SetupPageViewController: UIViewController {
             SetButton.isSelected = true
             SetButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             SetButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            SetButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
+            SetButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
             text.rightView = SetButton
             text.rightViewMode = .always
             text.isSecureTextEntry = true
@@ -78,7 +78,7 @@ class SetupPageViewController: UIViewController {
             ConfirmButton.isSelected = true
             ConfirmButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             ConfirmButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            ConfirmButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchDown)
+            ConfirmButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
             text.rightView = ConfirmButton
             text.rightViewMode = .always
             text.isSecureTextEntry = true

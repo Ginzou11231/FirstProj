@@ -11,7 +11,7 @@ import SnapKit
 
 
 
-class HomeCollectionCell: UICollectionViewCell {
+class HomeCategoryCell: UICollectionViewCell {
     
     var Label : UILabel!
     var UnderLine: UIView!
@@ -35,7 +35,6 @@ class HomeCollectionCell: UICollectionViewCell {
             make.width.equalTo(Label).offset(-15)
             make.height.equalTo(4)
         }
-        
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

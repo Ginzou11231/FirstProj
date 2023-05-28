@@ -10,6 +10,7 @@ import SnapKit
 
 class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDelegate {
     
+    var HomeDelegate : HomePageDelegate?
     var TitleLabel : UILabel!
     var BackGroundView : UIView!
     var BackBtn , AddBtn , ImageBtn , RightBtn : UIButton!
@@ -19,7 +20,8 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
     func UIInit(){
         BackBtn = UIButton()
         BackBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchDown)
+        BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchUpInside)
+        BackBtn.tintColor = .white
         self.view.addSubview(BackBtn)
         BackBtn.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(45)
@@ -36,8 +38,6 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         self.view.addSubview(TitleLabel)
         TitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            //            make.left.equalToSuperview()
-            //            make.right.equalToSuperview().offset(-10)
             make.top.equalTo(BackBtn.snp.top)
             make.height.equalTo(BackBtn.snp.height)
         }
@@ -53,7 +53,7 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         ImageBtn = UIButton()
         ImageBtn.setImage(UIImage(named: "Searchimage"), for: .normal)
         ImageBtn.layer.cornerRadius = 50
-        ImageBtn.addTarget(self, action: #selector(ImageBtnAction(sender:)), for: .touchDown)
+        ImageBtn.addTarget(self, action: #selector(ImageBtnAction(sender:)), for: .touchUpInside)
         BackGroundView.addSubview(ImageBtn)
         ImageBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -103,7 +103,7 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         AddBtn.titleLabel?.font = .boldSystemFont(ofSize: 20)
         AddBtn.backgroundColor = .systemYellow
         
-        AddBtn.addTarget(self, action: #selector(AddBtnAction(sender:)), for: .touchDown)
+        AddBtn.addTarget(self, action: #selector(AddBtnAction(sender:)), for: .touchUpInside)
         BackGroundView.addSubview(AddBtn)
         AddBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -127,7 +127,7 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
             RightBtn.isSelected = true
             RightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             RightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            RightBtn.addTarget(self, action: #selector(self.RightBtnAciton(sender:)), for: .touchDown)
+            RightBtn.addTarget(self, action: #selector(self.RightBtnAciton(sender:)), for: .touchUpInside)
             TF.rightView = RightBtn
             TF.rightViewMode = .always
             TF.isSecureTextEntry = true
@@ -144,7 +144,7 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
     }
     
     @objc func ImageBtnAction(sender:UIButton){
-        print("Hole")
+        print("Search Icon Image in LocalDevice")
     }
     
     @objc func BackBtnAction(sender:UIButton){
@@ -162,7 +162,65 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
     }
     
     @objc func AddBtnAction(sender:UIButton){
-        print("ass")
+        if let check = NameTF.text?.isEmpty , check{
+            let AlertController = UIAlertController(title: "Error", message: "Name is Empty", preferredStyle: .alert)
+            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
+            AlertController.addAction(AlertAction)
+            present(AlertController, animated: true,completion: nil)
+            return
+        }
+        if let check = CategoryTF.text?.isEmpty , check{
+            let AlertController = UIAlertController(title: "Error", message: "Category is Empty", preferredStyle: .alert)
+            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
+            AlertController.addAction(AlertAction)
+            present(AlertController, animated: true,completion: nil)
+            return
+        }
+        if let check = AccountTF.text?.isEmpty , check{
+            let AlertController = UIAlertController(title: "Error", message: "Account is Empty", preferredStyle: .alert)
+            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
+            AlertController.addAction(AlertAction)
+            present(AlertController, animated: true,completion: nil)
+            return
+        }
+        if let check = PasswordTF.text?.isEmpty , check{
+            let AlertController = UIAlertController(title: "Error", message: "Password is Empty", preferredStyle: .alert)
+            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
+            AlertController.addAction(AlertAction)
+            present(AlertController, animated: true,completion: nil)
+            return
+        }
+    
+        let AlertController = UIAlertController(title: "Alert", message: "There Are Currently No Folder", preferredStyle: .alert)
+        let AlertAction = UIAlertAction(title: "OK", style: .default) { UIAlert in
+            let Model = AddPageModel()
+            Model.Image = self.ImageBtn.currentImage
+            Model.Name = self.NameTF.text
+            Model.Category = self.CategoryTF.text
+            Model.Account = self.AccountTF.text
+            Model.Password = self.PasswordTF.text
+            
+            if let check = self.UrlTF.text?.isEmpty , check{
+                Model.Url = "None"
+            }else{
+                Model.Url = self.UrlTF.text
+            }
+            if self.CommentTV.text == "Comment"{
+                Model.Comment = "None"
+            }else{
+                Model.Comment = self.CommentTV.text
+            }
+            
+            self.HomeDelegate?.AddCell(AddPageModel: Model)
+            let AlertController = UIAlertController(title: "", message: "Item Created Successfully", preferredStyle: .alert)
+            let AlertAction = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+                self.dismiss(animated: true)
+            }
+            AlertController.addAction(AlertAction)
+            self.present(AlertController , animated: true)
+        }
+        AlertController.addAction(AlertAction)
+        present(AlertController, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
