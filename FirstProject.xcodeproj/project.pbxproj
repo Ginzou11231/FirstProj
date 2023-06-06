@@ -25,6 +25,9 @@
 		68FAABF12A171BAB0064783C /* AddPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABF02A171BAB0064783C /* AddPage.swift */; };
 		68FAABF52A22ED7A0064783C /* HomeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABF42A22ED7A0064783C /* HomeListCell.swift */; };
 		68FAABF92A2325710064783C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABF82A2325710064783C /* Models.swift */; };
+		68FAABFB2A243AF30064783C /* CreateFolderPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABFA2A243AF30064783C /* CreateFolderPage.swift */; };
+		68FAABFF2A2452C80064783C /* FolderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABFE2A2452C80064783C /* FolderListCell.swift */; };
+		68FAAC012A2888680064783C /* HomeListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAAC002A2888680064783C /* HomeListDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		68FAABF02A171BAB0064783C /* AddPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPage.swift; sourceTree = "<group>"; };
 		68FAABF42A22ED7A0064783C /* HomeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListCell.swift; sourceTree = "<group>"; };
 		68FAABF82A2325710064783C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		68FAABFA2A243AF30064783C /* CreateFolderPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderPage.swift; sourceTree = "<group>"; };
+		68FAABFE2A2452C80064783C /* FolderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListCell.swift; sourceTree = "<group>"; };
+		68FAAC002A2888680064783C /* HomeListDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListDetail.swift; sourceTree = "<group>"; };
 		9DFD265FDBAACE9E2921E966 /* Pods_FirstProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirstProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5BA131CC56AF4F7469DA8B7 /* Pods-FirstProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.debug.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.debug.xcconfig"; sourceTree = "<group>"; };
 		F3D3E8E483A48EA928F18FFF /* Pods-FirstProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.release.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -112,8 +118,11 @@
 				68FAABE02A1184B40064783C /* HomePage.swift */,
 				68FAABEC2A17007A0064783C /* HomeCategoryCell.swift */,
 				68FAABF42A22ED7A0064783C /* HomeListCell.swift */,
+				68FAAC002A2888680064783C /* HomeListDetail.swift */,
 				68FAABF02A171BAB0064783C /* AddPage.swift */,
 				68FAABE22A1188EE0064783C /* FolderPage.swift */,
+				68FAABFE2A2452C80064783C /* FolderListCell.swift */,
+				68FAABFA2A243AF30064783C /* CreateFolderPage.swift */,
 				68FAABE42A1188FF0064783C /* GeneratorPage.swift */,
 				68FAABE62A1189080064783C /* MorePage.swift */,
 				68FAABCC2A0D519F0064783C /* Main.storyboard */,
@@ -242,13 +251,16 @@
 				68FAABED2A17007A0064783C /* HomeCategoryCell.swift in Sources */,
 				68FAABCB2A0D519F0064783C /* SetupPage.swift in Sources */,
 				68FAABC72A0D519F0064783C /* AppDelegate.swift in Sources */,
+				68FAAC012A2888680064783C /* HomeListDetail.swift in Sources */,
 				68FAABE72A1189080064783C /* MorePage.swift in Sources */,
 				68FAABE92A118C5D0064783C /* TabbarController.swift in Sources */,
 				68FAABF52A22ED7A0064783C /* HomeListCell.swift in Sources */,
 				68FAABC92A0D519F0064783C /* SceneDelegate.swift in Sources */,
+				68FAABFF2A2452C80064783C /* FolderListCell.swift in Sources */,
 				68FAABE52A1188FF0064783C /* GeneratorPage.swift in Sources */,
 				68FAABE12A1184B40064783C /* HomePage.swift in Sources */,
 				68FAABDF2A0DC0940064783C /* LoginPage.swift in Sources */,
+				68FAABFB2A243AF30064783C /* CreateFolderPage.swift in Sources */,
 				68FAABDD2A0DB8C70064783C /* ForgatPage.swift in Sources */,
 				68FAABF12A171BAB0064783C /* AddPage.swift in Sources */,
 				68FAABE32A1188EE0064783C /* FolderPage.swift in Sources */,

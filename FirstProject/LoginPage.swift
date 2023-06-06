@@ -8,93 +8,168 @@
 import UIKit
 import SnapKit
 
-class LoginPageViewController: UIViewController {
+protocol LoginPageDelegate{
+    func SetLoginPassword(Password pw : String)
+}
+
+class LoginPageViewController: UIViewController , LoginPageDelegate {
     
     @IBOutlet weak var Image :UIImageView!
     
-    var PasswordTextField : UnitTextField!
-    var ForgatButton , RightButton : UIButton!
+    var DeleteCheck : Bool = false
+    var DeleteData : String!
+    var FolderDelegate : FolderPageDelegate!
+    
+    var PasswordTF : UnitTextField!
+    var ForgatBtn , TFRightBtn , BackBtn : UIButton!
     
     func UIInit(){
-        PasswordTextField = UnitTextField()
-        ForgatButton = UIButton()
+        BackBtn = UIButton()
+        BackBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchUpInside)
+        BackBtn.tintColor = .white
+        BackBtn.isHidden = true
+        self.view.addSubview(BackBtn)
+        BackBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.left.equalToSuperview()
+            make.width.equalTo(65)
+            make.height.equalTo(50)
+        }
         
-        self.view.addSubview(PasswordTextField)
-        self.view.addSubview(ForgatButton)
+        PasswordTF = UnitTextField()
+        ForgatBtn = UIButton()
         
-        PasswordTextField.snp.makeConstraints { make in
+        self.view.addSubview(PasswordTF)
+        self.view.addSubview(ForgatBtn)
+        
+        PasswordTF.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.top.equalTo(Image.snp.bottom).offset(160)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        ForgatButton.snp.makeConstraints { make in
+        ForgatBtn.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(PasswordTextField.snp.bottom).offset(100)
+            make.top.equalTo(PasswordTF.snp.bottom).offset(100)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        ForgatButton.backgroundColor = .clear
-        ForgatButton.setTitle("Forgat Password >", for: .normal)
-        ForgatButton.setTitleColor(.orange, for: .normal)
-        ForgatButton.addTarget(self, action: #selector(GoToForgatPage(sender:)), for: .touchUpInside)
+        ForgatBtn.backgroundColor = .clear
+        ForgatBtn.setTitle("Forgat Password >", for: .normal)
+        ForgatBtn.setTitleColor(.orange, for: .normal)
+        ForgatBtn.addTarget(self, action: #selector(ForgatBtnAction(sender:)), for: .touchUpInside)
         
-        PasswordTextField.backgroundColor = .white
-        PasswordTextField.layer.cornerRadius = 20
-        PasswordTextField.placeholder = "Please Input Your Password"
+        PasswordTF.backgroundColor = .white
+        PasswordTF.layer.cornerRadius = 20
+        PasswordTF.placeholder = "Please Input Your Password"
         
-        PasswordTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
-        PasswordTextField.leftViewMode = .always
+        PasswordTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
+        PasswordTF.leftViewMode = .always
         
-        RightButton = UIButton()
-        RightButton.isSelected = true
-        RightButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-        RightButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-        RightButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-        PasswordTextField.rightView = RightButton
-        PasswordTextField.rightViewMode = .always
-        PasswordTextField.isSecureTextEntry = true
+        TFRightBtn = UIButton()
+        TFRightBtn.isSelected = true
+        TFRightBtn.tintColor = .darkGray
+        TFRightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+        TFRightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+        TFRightBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+        PasswordTF.rightView = TFRightBtn
+        PasswordTF.rightViewMode = .always
+        PasswordTF.isSecureTextEntry = true
+    }
+    
+    @objc func BackBtnAction(sender:UIButton){
+        dismiss(animated: true)
     }
     
     @objc func RightBtnAction(sender:UIButton){
         if sender.isSelected{
-            PasswordTextField.isSecureTextEntry = false
-            RightButton.isSelected = false
+            PasswordTF.isSecureTextEntry = false
+            TFRightBtn.isSelected = false
         }else if sender.isSelected == false{
-            PasswordTextField.isSecureTextEntry = true
-            RightButton.isSelected = true
+            PasswordTF.isSecureTextEntry = true
+            TFRightBtn.isSelected = true
         }
     }
     
-    @objc func GoToForgatPage(sender : UIButton){
+    @objc func ForgatBtnAction(sender : UIButton){
         if let vc = storyboard?.instantiateViewController(identifier: "ForgatPage") as? ForgatPageViewController{
             vc.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.LoginDelegate = self
+            present(vc , animated: true)
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+    
+    func SetLoginPassword(Password pw : String){
+        PasswordTF.text = pw
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         UIInit()
         
-//        let alertController = UIAlertController(title: "Setting", message: "Can't Find Password Data", preferredStyle: .alert)
-//        let alert1 = UIAlertAction(title: "Go to Setting", style: .default ,
-//                                   handler: {action in print("aaa")
-//            if let vc = self.storyboard?.instantiateViewController(identifier: "SetupPage") as? SetupPageViewController{
-//                vc.modalPresentationStyle = .fullScreen
-//                self.present(vc , animated: true)
-//            }
-//        })
-//        alertController.addAction(alert1)
-//        present(alertController, animated: true)
+        guard let pass = UserDefaults.standard.object(forKey: "Password") else {
+            let AC = UIAlertController(title: "Welcome", message: "Please Setup Password Data", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                if let vc = self.storyboard?.instantiateViewController(identifier: "SetupPage"){
+                    vc.modalPresentationStyle = .fullScreen
+                    self.present(vc , animated: true)
+                }
+            }
+            AC.addAction(OK)
+            present(AC , animated: true)
+
+            return
+        }
+        
+        if FolderDelegate != nil{
+            BackBtn.isHidden = false
+            DeleteCheck = true
+        }
     }
     
     @IBAction func DoneButton(sender:UIButton){
-        if let tabbar = self.storyboard?.instantiateViewController(identifier:"Tabbar") as? TabbarController{
-            tabbar.modalPresentationStyle = .fullScreen
-            present(tabbar , animated: true)
+        
+        self.view.endEditing(true)
+        
+        if let Check = PasswordTF.text?.isEmpty , Check{
+            let AC = UIAlertController(title: "", message: "Password is Empty", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default)
+            AC.addAction(OK)
+            present(AC , animated: true)
+            return
+        }
+        
+        if let Check = UserDefaults.standard.object(forKey: "Password") as? String{
+            if Check == PasswordTF.text{
+                if DeleteCheck {
+                    let AC = UIAlertController(title: "", message: "Folder Delete Complete", preferredStyle: .alert)
+                    let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                        self.FolderDelegate.DeleteListCell(DeleteData: self.DeleteData)
+                        self.dismiss(animated: true)
+                    }
+                    AC.addAction(OK)
+                    present(AC , animated: true)
+                    
+                }else{
+                    if let tabbar = self.storyboard?.instantiateViewController(identifier:"Tabbar") as? TabbarController{
+                        tabbar.modalPresentationStyle = .fullScreen
+                        present(tabbar , animated: true)
+                    }
+                }
+            }else{
+                let AC = UIAlertController(title: "", message: "Password is Wrong", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default)
+                AC.addAction(OK)
+                present(AC , animated: true)
+            }
         }
     }
 }

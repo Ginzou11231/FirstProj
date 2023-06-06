@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddPageModel {
+class ListDataModel {
     var Image : UIImage?
     var Name , Category , Account , Password , Url , Comment: String?
 }

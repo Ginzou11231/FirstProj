@@ -8,23 +8,36 @@
 import UIKit
 import SnapKit
 
-class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDelegate {
+class AddPageViewController: UIViewController , UITextViewDelegate {
     
     var HomeDelegate : HomePageDelegate?
+    var DetailDelegate : DetailPageDelegate?
+    
+    var EditModel : ListDataModel!
+    var isReEdit : Bool = false
+    
+    var BackgroundImageView : UIImageView!
     var TitleLabel : UILabel!
-    var BackGroundView : UIView!
+    var BackgroundView : UIView!
     var BackBtn , AddBtn , ImageBtn , RightBtn : UIButton!
     var NameTF , CategoryTF , AccountTF , PasswordTF , UrlTF  : UnitTextField!
     var CommentTV : UITextView!
     
     func UIInit(){
+        BackgroundImageView = UIImageView()
+        BackgroundImageView.image = UIImage(named: "BG")
+        self.view.addSubview(BackgroundImageView)
+        BackgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         BackBtn = UIButton()
         BackBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchUpInside)
         BackBtn.tintColor = .white
         self.view.addSubview(BackBtn)
         BackBtn.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(45)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.left.equalToSuperview()
             make.width.equalTo(65)
             make.height.equalTo(50)
@@ -32,7 +45,7 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         
         TitleLabel = UILabel()
         TitleLabel.text = "ADD"
-        TitleLabel.font = UIFont.systemFont(ofSize: 24)
+        TitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         TitleLabel.textColor = .white
         TitleLabel.textAlignment = .center
         self.view.addSubview(TitleLabel)
@@ -42,22 +55,25 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
             make.height.equalTo(BackBtn.snp.height)
         }
         
-        BackGroundView = UIView()
-        BackGroundView.backgroundColor = UIColor(cgColor: CGColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1))
-        BackGroundView.layer.cornerRadius = 20
-        self.view.addSubview(BackGroundView)
-        BackGroundView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 100, left: 20, bottom: 30, right: 20))
+        BackgroundView = UIView()
+        BackgroundView.backgroundColor = UIColor(cgColor: CGColor(red: 1, green: 1, blue: 1, alpha: 0.25))
+        BackgroundView.layer.cornerRadius = 20
+        self.view.addSubview(BackgroundView)
+        BackgroundView.snp.makeConstraints { make in
+            make.top.equalTo(BackBtn.snp.bottom)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
         
         ImageBtn = UIButton()
-        ImageBtn.setImage(UIImage(named: "Searchimage"), for: .normal)
+        ImageBtn.setBackgroundImage(UIImage(named: "Searchimage"), for: .normal)
         ImageBtn.layer.cornerRadius = 50
         ImageBtn.addTarget(self, action: #selector(ImageBtnAction(sender:)), for: .touchUpInside)
-        BackGroundView.addSubview(ImageBtn)
+        self.view.addSubview(ImageBtn)
         ImageBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(50)
+            make.centerX.equalTo(BackgroundView)
+            make.top.equalTo(BackgroundView).offset(50)
             make.width.equalTo(100)
             make.height.equalTo(100)
         }
@@ -85,14 +101,13 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         CommentTV.textColor = .lightGray
         CommentTV.isEditable = true
         CommentTV.isSelectable = true
-        BackGroundView.addSubview(CommentTV)
+        self.view.addSubview(CommentTV)
         
         CommentTV.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
-            make.height.equalTo(180)
             make.top.equalTo(UrlTF.snp.bottom).offset(20)
+            make.left.equalTo(BackgroundView).offset(20)
+            make.right.equalTo(BackgroundView).offset(-20)
+            make.height.equalTo(160)
         }
         
         AddBtn = UIButton()
@@ -104,18 +119,17 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
         AddBtn.backgroundColor = .systemYellow
         
         AddBtn.addTarget(self, action: #selector(AddBtnAction(sender:)), for: .touchUpInside)
-        BackGroundView.addSubview(AddBtn)
+        self.view.addSubview(AddBtn)
         AddBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
             make.top.equalTo(CommentTV.snp.bottom).offset(15)
+            make.left.equalTo(BackgroundView).offset(20)
+            make.right.equalTo(BackgroundView).offset(-20)
             make.height.equalTo(40)
         }
+        
     }
     
     func SetTextField(TextField TF : UITextField , String str : String , SnapTarget view : UIView){
-        TF.delegate = self
         TF.backgroundColor = .white
         TF.layer.cornerRadius = 20
         TF.placeholder = str
@@ -127,18 +141,18 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
             RightBtn.isSelected = true
             RightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
             RightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            RightBtn.tintColor = .darkGray
             RightBtn.addTarget(self, action: #selector(self.RightBtnAciton(sender:)), for: .touchUpInside)
             TF.rightView = RightBtn
             TF.rightViewMode = .always
             TF.isSecureTextEntry = true
         }
         
-        BackGroundView.addSubview(TF)
+        self.view.addSubview(TF)
         TF.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalTo(view.snp.bottom).offset(20)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
+            make.left.equalTo(BackgroundView).offset(20)
+            make.right.equalTo(BackgroundView).offset(-20)
             make.height.equalTo(40)
         }
     }
@@ -162,68 +176,208 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
     }
     
     @objc func AddBtnAction(sender:UIButton){
+        self.view.endEditing(true)
+        
         if let check = NameTF.text?.isEmpty , check{
-            let AlertController = UIAlertController(title: "Error", message: "Name is Empty", preferredStyle: .alert)
-            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
-            AlertController.addAction(AlertAction)
-            present(AlertController, animated: true,completion: nil)
+            EmptyAlert(Message: "Name is Empty")
             return
         }
         if let check = CategoryTF.text?.isEmpty , check{
-            let AlertController = UIAlertController(title: "Error", message: "Category is Empty", preferredStyle: .alert)
-            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
-            AlertController.addAction(AlertAction)
-            present(AlertController, animated: true,completion: nil)
+            EmptyAlert(Message: "Category is Empty")
             return
         }
         if let check = AccountTF.text?.isEmpty , check{
-            let AlertController = UIAlertController(title: "Error", message: "Account is Empty", preferredStyle: .alert)
-            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
-            AlertController.addAction(AlertAction)
-            present(AlertController, animated: true,completion: nil)
+            EmptyAlert(Message: "Account is Empty")
             return
         }
         if let check = PasswordTF.text?.isEmpty , check{
-            let AlertController = UIAlertController(title: "Error", message: "Password is Empty", preferredStyle: .alert)
-            let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
-            AlertController.addAction(AlertAction)
-            present(AlertController, animated: true,completion: nil)
+            EmptyAlert(Message: "Password is Empty")
             return
         }
-    
-        let AlertController = UIAlertController(title: "Alert", message: "There Are Currently No Folder", preferredStyle: .alert)
-        let AlertAction = UIAlertAction(title: "OK", style: .default) { UIAlert in
-            let Model = AddPageModel()
-            Model.Image = self.ImageBtn.currentImage
-            Model.Name = self.NameTF.text
-            Model.Category = self.CategoryTF.text
-            Model.Account = self.AccountTF.text
-            Model.Password = self.PasswordTF.text
-            
-            if let check = self.UrlTF.text?.isEmpty , check{
-                Model.Url = "None"
-            }else{
-                Model.Url = self.UrlTF.text
-            }
-            if self.CommentTV.text == "Comment"{
-                Model.Comment = "None"
-            }else{
-                Model.Comment = self.CommentTV.text
-            }
-            
-            self.HomeDelegate?.AddCell(AddPageModel: Model)
-            let AlertController = UIAlertController(title: "", message: "Item Created Successfully", preferredStyle: .alert)
-            let AlertAction = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
-                self.dismiss(animated: true)
-            }
-            AlertController.addAction(AlertAction)
-            self.present(AlertController , animated: true)
+        
+        let NewDataModel = ListDataModel()
+        NewDataModel.Name = NameTF.text
+        NewDataModel.Category = CategoryTF.text
+        NewDataModel.Account = AccountTF.text
+        NewDataModel.Password = PasswordTF.text
+        //        if let check = self.ImageBtn.currentImage, check != UIImage(named: "Searchimage"){
+        NewDataModel.Image = ImageBtn.currentBackgroundImage
+        //        }
+        if let check = UrlTF.text?.isEmpty , check{
+            NewDataModel.Url = "None"
+        }else{
+            NewDataModel.Url = UrlTF.text
         }
-        AlertController.addAction(AlertAction)
-        present(AlertController, animated: true)
+        if let check = CommentTV.text , check == "Comment"{
+            NewDataModel.Comment = "None"
+        }else{
+            NewDataModel.Comment = CommentTV.text
+        }
+        
+        
+        if isReEdit{
+            if let check = self.HomeDelegate?.CheckCategoryCell(CategoryName: NewDataModel.Category!) , check{
+                
+                ReEditData(EditModel: EditModel, NewDataModel: NewDataModel , AddFolder: true)
+                
+            }else{
+                if let check = self.HomeDelegate?.CheckFolderSameData(ListData: NewDataModel) , check{
+                    OverrideData(EditModel: EditModel, NewDataModel: NewDataModel)
+                }else{
+                    ReEditData(EditModel: EditModel, NewDataModel: NewDataModel , AddFolder: false)
+                }
+            }
+        }else{
+            if let check = self.HomeDelegate?.CheckCategoryCell(CategoryName: NewDataModel.Category!) , check{
+                AddData(NewDataModel: NewDataModel, AddFolder: true)
+            }else{
+                if let check = self.HomeDelegate?.CheckFolderSameData(ListData: NewDataModel) , check{
+                    UpdateData(NewDataModel: NewDataModel)
+                }else{
+                    AddData(NewDataModel: NewDataModel , AddFolder: false)
+                }
+            }
+        }
     }
     
+    func EmptyAlert(Message msg : String){
+        let AlertController = UIAlertController(title: "", message : msg, preferredStyle: .alert)
+        let AlertAction = UIAlertAction(title:"OK" , style: .default , handler: nil)
+        AlertController.addAction(AlertAction)
+        present(AlertController, animated: true,completion: nil)
+    }
+    
+    func UpdateData(NewDataModel Model : ListDataModel){
+        let AC = UIAlertController(title: "Alert", message: "This Name have in Folder\nDo You Want Overwrite Data?", preferredStyle: .alert)
+        let OK = UIAlertAction(title: "OK", style: .default) { Action in
+            
+            let AC = UIAlertController(title: "Warning", message: "If You Want Overwrite Data\nWill Lost Original Data\nAre You Sure Overwrite Data ?", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                
+                let AC = UIAlertController(title: "", message: "Data Update Complete", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+                    
+                    self.HomeDelegate?.UpdateListCell(NewData: Model)
+                    self.dismiss(animated: true)
+                }
+                AC.addAction(OK)
+                self.present(AC , animated: true)
+            }
+            let Cancel = UIAlertAction(title: "Cancel", style: .default)
+            AC.addAction(OK)
+            AC.addAction(Cancel)
+            self.present(AC , animated: true)
+        }
+        
+        let Cancel = UIAlertAction(title: "Cancel", style: .default)
+        AC.addAction(OK)
+        AC.addAction(Cancel)
+        present(AC , animated: true)
+    }
+    
+    func AddData(NewDataModel Model : ListDataModel , AddFolder Folder : Bool){
+        if Folder{
+            let AC = UIAlertController(title: "", message: "There Are Currently No Folder", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                
+                self.HomeDelegate?.AddCategoryCell(CategoryName: Model.Category!)
+                let AC = UIAlertController(title: "", message: "Data Create Complete", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                    self.HomeDelegate?.AddListCell(AddPageModel: Model)
+                    self.dismiss(animated: true)
+                }
+                AC.addAction(OK)
+                self.present(AC , animated: true)
+            }
+            AC.addAction(OK)
+            self.present(AC , animated: true )
+            
+        }else{
+            let AC = UIAlertController(title: "", message: "Data Create Complete", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+                self.HomeDelegate?.AddListCell(AddPageModel: Model)
+                self.dismiss(animated: true)
+            }
+            AC.addAction(OK)
+            self.present(AC , animated: true)
+        }
+
+    }
+    
+    func ReEditData(EditModel Data : ListDataModel , NewDataModel Model : ListDataModel , AddFolder Folder : Bool){
+        if Folder{
+            let AC = UIAlertController(title: "", message: "There Are Currently No Folder", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                
+                self.HomeDelegate?.AddCategoryCell(CategoryName: Model.Category!)
+                let AC = UIAlertController(title: "", message: "Data Update Complete", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                    
+                    if self.DetailDelegate != nil{
+                        self.DetailDelegate?.UpdateData(NewData: Model)
+                    }
+                    
+                    self.HomeDelegate?.ReEditListCell(EditDataModel: Data, NewDataModel: Model)
+                    self.dismiss(animated: true)
+                }
+                AC.addAction(OK)
+                self.present(AC , animated: true)
+            }
+            AC.addAction(OK)
+            self.present(AC , animated: true)
+            
+        }else{
+            let AC = UIAlertController(title: "Done", message: "Data Update Complete", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                
+                if self.DetailDelegate != nil{
+                    self.DetailDelegate?.UpdateData(NewData: Model)
+                }
+                
+                self.HomeDelegate?.ReEditListCell(EditDataModel: Data, NewDataModel: Model)
+                self.dismiss(animated: true)
+            }
+            AC.addAction(OK)
+            present(AC , animated: true)
+        }
+
+    }
+    
+    func OverrideData(EditModel Data : ListDataModel , NewDataModel Model : ListDataModel){
+        let AC = UIAlertController(title: "Alert", message: "This Name have in Folder\nDo You Want Overwrite Data?", preferredStyle: .alert)
+        let OK = UIAlertAction(title: "OK", style: .default) { Action in
+            
+            let AC = UIAlertController(title: "Warning", message: "If You Want Overwrite Data\nWill Lost Original Data\nAre You Sure Overwrite Data ?", preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                
+                let AC = UIAlertController(title: "", message: "Data Update Complete", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+                    
+                    if self.DetailDelegate != nil{
+                        self.DetailDelegate?.UpdateData(NewData: Model)
+                    }
+                    
+                    self.HomeDelegate?.OverrideListCell(EditDataModel: Data, NewDataModel: Model)
+                    self.dismiss(animated: true)
+                }
+                AC.addAction(OK)
+                self.present(AC , animated: true)
+            }
+            let Cancel = UIAlertAction(title: "Cancel", style: .default)
+            AC.addAction(OK)
+            AC.addAction(Cancel)
+            self.present(AC , animated: true)
+        }
+        
+        let Cancel = UIAlertAction(title: "Cancel", style: .default)
+        AC.addAction(OK)
+        AC.addAction(Cancel)
+        present(AC , animated: true)
+    }
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
     
@@ -235,15 +389,40 @@ class AddViewController: UIViewController , UITextViewDelegate , UITextFieldDele
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty{
-            textView.text = "Comment"
-            textView.textColor = .lightGray
+        for char in textView.text{
+            if !char.isWhitespace{
+                return
+            }
         }
+        textView.text = "Comment"
+        textView.textColor = .lightGray
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         UIInit()
+        
+        if EditModel != nil{
+            ImageBtn.setImage(EditModel.Image, for: .normal)
+            NameTF.text = EditModel.Name
+            CategoryTF.text = EditModel.Category
+            AccountTF.text = EditModel.Account
+            PasswordTF.text = EditModel.Password
+            
+            if EditModel.Url == "None"{
+                UrlTF.text = ""
+            }else{
+                UrlTF.text = EditModel.Url
+            }
+            if EditModel.Comment == "None"{
+                CommentTV.text = "Comment"
+            }else{
+                CommentTV.text = EditModel.Comment
+                CommentTV.textColor = .black
+            }
+            
+            AddBtn.setTitle("UPDATE", for: .normal)
+            isReEdit = true
+        }
     }
-    
 }

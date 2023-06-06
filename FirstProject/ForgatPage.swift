@@ -12,66 +12,88 @@ class ForgatPageViewController: UIViewController {
     
     @IBOutlet weak var Label : UILabel!
     
-    var HintTextField , PasswordTextField : UnitTextField!
-    var RightButton : UIButton!
+    var LoginDelegate : LoginPageDelegate!
+    
+    var HintTF : UITextField!
+    var PasswordTF : UnitTextField!
+    var BackBtn , TFRightBtn : UIButton!
     
     func UIInit(){
-        HintTextField = UnitTextField()
-        PasswordTextField = UnitTextField()
+        BackBtn = UIButton()
+        BackBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchUpInside)
+        BackBtn.tintColor = .white
+        self.view.addSubview(BackBtn)
+        BackBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.left.equalToSuperview()
+            make.width.equalTo(65)
+            make.height.equalTo(50)
+        }
         
-        self.view.addSubview(HintTextField)
-        self.view.addSubview(PasswordTextField)
+        HintTF = UITextField()
+        PasswordTF = UnitTextField()
         
-        HintTextField.snp.makeConstraints { make in
+        self.view.addSubview(HintTF)
+        self.view.addSubview(PasswordTF)
+        
+        HintTF.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.top.equalTo(Label.snp.bottom).offset(60)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        PasswordTextField.snp.makeConstraints { make in
+        PasswordTF.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(HintTextField.snp.bottom).offset(30)
+            make.top.equalTo(HintTF.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        LeftRightViewInit(TextUI: HintTextField, InputHint: "aaa")
-        LeftRightViewInit(TextUI: PasswordTextField, InputHint: "Please Input Your Password")
+        SetTextField(TextUI: HintTF, InputHint: UserDefaults.standard.object(forKey: "Hint") as! String)
+        SetTextField(TextUI: PasswordTF, InputHint: "Please Input Your Password")
     }
     
-    func LeftRightViewInit(TextUI text : UITextField , InputHint Hint : String){
-        text.backgroundColor = .white
-        text.layer.cornerRadius = 20
+    @objc func BackBtnAction(sender:UIButton){
+        dismiss(animated: true)
+    }
+    
+    func SetTextField(TextUI TF : UITextField , InputHint Hint : String){
+        TF.backgroundColor = .white
+        TF.layer.cornerRadius = 20
         
-        if text == HintTextField{
-            text.text = Hint
+        if TF == HintTF{
+            TF.text = Hint
+            TF.textAlignment = .center
+            TF.isEnabled = false
         }else{
-            text.placeholder = Hint
+            TF.placeholder = Hint
         }
         
-        text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
-        text.leftViewMode = .always
+        TF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
+        TF.leftViewMode = .always
         
-        if text == PasswordTextField{
-            RightButton = UIButton()
-            RightButton.isSelected = true
-            RightButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-            RightButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            RightButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-            text.rightView = RightButton
-            text.rightViewMode = .always
-            text.isSecureTextEntry = true
+        if TF == PasswordTF{
+            TFRightBtn = UIButton()
+            TFRightBtn.isSelected = true
+            TFRightBtn.tintColor = .darkGray
+            TFRightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+            TFRightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            TFRightBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+            TF.rightView = TFRightBtn
+            TF.rightViewMode = .always
+            TF.isSecureTextEntry = true
         }
     }
     
     @objc func RightBtnAction(sender:UIButton){
         if sender.isSelected{
-            PasswordTextField.isSecureTextEntry = false
-            RightButton.isSelected = false
+            PasswordTF.isSecureTextEntry = false
+            TFRightBtn.isSelected = false
         }else if sender.isSelected == false{
-            PasswordTextField.isSecureTextEntry = true
-            RightButton.isSelected = true
+            PasswordTF.isSecureTextEntry = true
+            TFRightBtn.isSelected = true
         }
         
     }
@@ -83,19 +105,36 @@ class ForgatPageViewController: UIViewController {
     
     @IBAction func DoneButton(_ sender : UIButton){
         
-        if PasswordTextField.text?.isEmpty == true{
-            let alertController = UIAlertController(title: "Error", message: "SetPassword is Empty", preferredStyle: .alert)
-            let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-            alertController.addAction(alertaction)
-            present(alertController, animated: true,completion: nil)
+        if TextFieldCheck(TextField: PasswordTF, EmptyMessage: "Password is Empty", FieldName: "Password"){
             return
         }
         
-        let alertController = UIAlertController(title: "clear", message: "check done but no working", preferredStyle: .alert)
-        let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-        alertController.addAction(alertaction)
-        present(alertController, animated: true,completion: nil)
-        
+        if let check = UserDefaults.standard.object(forKey: "Password") as? String{
+            if check == PasswordTF.text{
+                let AC = UIAlertController(title: "", message: "Password is Confirm\nBack To Previous Page", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                    self.LoginDelegate.SetLoginPassword(Password: self.PasswordTF.text!)
+                    self.dismiss(animated: true)
+                }
+                AC.addAction(OK)
+                present(AC , animated: true)
+            }else{
+                let AC = UIAlertController(title: "", message: "Password is Wrong", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default)
+                AC.addAction(OK)
+                present(AC , animated: true)
+            }
+        }
     }
     
+    func TextFieldCheck(TextField TF : UITextField , EmptyMessage msg : String , FieldName Name : String) -> Bool{
+        if let check = TF.text?.isEmpty , check{
+            let AC = UIAlertController(title: "", message: msg, preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default,handler: nil)
+            AC.addAction(OK)
+            present(AC, animated: true)
+            return true
+        }
+        return false
+    }
 }

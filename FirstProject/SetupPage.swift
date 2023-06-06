@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 final class UnitTextField : UITextField{
+    
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         return CGRect(x: bounds.width - 40, y: 0, width: 30 , height: bounds.height)
     }
@@ -18,138 +19,163 @@ class SetupPageViewController: UIViewController {
     
     @IBOutlet weak var Label : UILabel!
     
-    var SetTextField , ConfirmTexfield, HintTextField : UnitTextField!
-    var SetButton , ConfirmButton : UIButton!
+    var PasswordTF , ConfirmTF, HintTF : UnitTextField!
+    var TFRightBtn , ConfirmBtn : UIButton!
     
     func UIInit(){
-        SetTextField = UnitTextField()
-        ConfirmTexfield = UnitTextField()
-        HintTextField = UnitTextField()
+        PasswordTF = UnitTextField()
+        ConfirmTF = UnitTextField()
+        HintTF = UnitTextField()
         
-        self.view.addSubview(SetTextField)
-        self.view.addSubview(ConfirmTexfield)
-        self.view.addSubview(HintTextField)
+        self.view.addSubview(PasswordTF)
+        self.view.addSubview(ConfirmTF)
+        self.view.addSubview(HintTF)
         
-        SetTextField.snp.makeConstraints { make in
+        PasswordTF.snp.makeConstraints { make in
             make.height.equalTo(40)
             make.top.equalTo(Label.snp.bottom).offset(60)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        ConfirmTexfield.snp.makeConstraints { make in
+        ConfirmTF.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(SetTextField.snp.bottom).offset(30)
+            make.top.equalTo(PasswordTF.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        HintTextField.snp.makeConstraints { make in
+        HintTF.snp.makeConstraints { make in
             make.height.equalTo(40)
-            make.top.equalTo(ConfirmTexfield.snp.bottom).offset(30)
+            make.top.equalTo(ConfirmTF.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
-        LeftRightViewInit(TextUI: SetTextField, InputHint: "Enter Security Password")
-        LeftRightViewInit(TextUI: ConfirmTexfield, InputHint: "Confirm Security Password")
-        LeftRightViewInit(TextUI: HintTextField, InputHint: "Password Hint")
+        SetTextField(TextUI: PasswordTF, InputHint: "Enter Security Password")
+        SetTextField(TextUI: ConfirmTF, InputHint: "Confirm Security Password")
+        SetTextField(TextUI: HintTF, InputHint: "Password Hint")
     }
     
-    func LeftRightViewInit(TextUI text : UITextField , InputHint Hint : String){
-        text.backgroundColor = .white
-        text.layer.cornerRadius = 20
-        text.placeholder = Hint
+    func SetTextField(TextUI TF : UITextField , InputHint Hint : String){
+        TF.backgroundColor = .white
+        TF.layer.cornerRadius = 20
+        TF.placeholder = Hint
         
-        text.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
-        text.leftViewMode = .always
+        TF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 40))
+        TF.leftViewMode = .always
         
-        if text == SetTextField{
-            SetButton = UIButton()
-            SetButton.isSelected = true
-            SetButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-            SetButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            SetButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-            text.rightView = SetButton
-            text.rightViewMode = .always
-            text.isSecureTextEntry = true
-        }else if text == ConfirmTexfield{
-            ConfirmButton = UIButton()
-            ConfirmButton.isSelected = true
-            ConfirmButton.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-            ConfirmButton.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            ConfirmButton.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-            text.rightView = ConfirmButton
-            text.rightViewMode = .always
-            text.isSecureTextEntry = true
+        if TF == PasswordTF{
+            TFRightBtn = UIButton()
+            TFRightBtn.isSelected = true
+            TFRightBtn.tintColor = .darkGray
+            TFRightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+            TFRightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            TFRightBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+            TF.rightView = TFRightBtn
+            TF.rightViewMode = .always
+            TF.isSecureTextEntry = true
+        }else if TF == ConfirmTF{
+            ConfirmBtn = UIButton()
+            ConfirmBtn.isSelected = true
+            ConfirmBtn.tintColor = .darkGray
+            ConfirmBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+            ConfirmBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            ConfirmBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+            TF.rightView = ConfirmBtn
+            TF.rightViewMode = .always
+            TF.isSecureTextEntry = true
         }
     }
     
     @objc func RightBtnAction(sender:UIButton){
-        if sender == SetButton{
+        if sender == TFRightBtn{
             if sender.isSelected{
-                SetTextField.isSecureTextEntry = false
-                SetButton.isSelected = false
+                PasswordTF.isSecureTextEntry = false
+                TFRightBtn.isSelected = false
             }else if sender.isSelected == false{
-                SetTextField.isSecureTextEntry = true
-                SetButton.isSelected = true
+                PasswordTF.isSecureTextEntry = true
+                TFRightBtn.isSelected = true
             }
-        }else if sender == ConfirmButton{
+        }else if sender == ConfirmBtn{
             if sender.isSelected{
-                ConfirmTexfield.isSecureTextEntry = false
-                ConfirmButton.isSelected = false
+                ConfirmTF.isSecureTextEntry = false
+                ConfirmBtn.isSelected = false
             }else if sender.isSelected == false{
-                ConfirmTexfield.isSecureTextEntry = true
-                ConfirmButton.isSelected = true
+                ConfirmTF.isSecureTextEntry = true
+                ConfirmBtn.isSelected = true
             }
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         UIInit()
     }
     
     @IBAction func DoneButton(_ sender : UIButton){
         
-        if let aaa = SetTextField.text?.isEmpty , aaa{
-            let alertController = UIAlertController(title: "Error", message: "SetPassword is Empty", preferredStyle: .alert)
-            let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-            alertController.addAction(alertaction)
-            present(alertController, animated: true,completion: nil)
+        self.view.endEditing(true)
+        
+        if TextFieldCheck(TextField: PasswordTF , EmptyMessage: "Password is Empty" , FieldName: "Password"){
             return
-        }else if ConfirmTexfield.text?.isEmpty == true{
-            let alertController = UIAlertController(title: "Error", message: "ConfirmPassword is Empty", preferredStyle: .alert)
-            let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-            alertController.addAction(alertaction)
-            present(alertController, animated: true,completion: nil)
+        }
+        if TextFieldCheck(TextField: ConfirmTF, EmptyMessage: "Confirm is Empty" , FieldName: "Confirm"){
             return
-        }else if HintTextField.text?.isEmpty == true{
-            let alertController = UIAlertController(title: "Error", message: "PasswordHint is Empty", preferredStyle: .alert)
-            let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-            alertController.addAction(alertaction)
-            present(alertController, animated: true,completion: nil)
+        }
+        if TextFieldCheck(TextField: HintTF, EmptyMessage: "Hint is Empty" , FieldName: "Hint"){
             return
         }
         
-        if SetTextField.text != ConfirmTexfield.text{
-            let alertController = UIAlertController(title: "Error", message: "Password and Confirm is different", preferredStyle: .alert)
-            let alertaction = UIAlertAction(title: "OK", style: .default,handler: nil)
-            alertController.addAction(alertaction)
-            present(alertController, animated: true,completion: nil)
-            return
-        }
-
-        let alertController = UIAlertController(title: "Done", message: "Password Setting is Complete", preferredStyle: .alert)
-        let alertaction = UIAlertAction(title: "OK", style: .default,
-                                        handler: {action in
-            /* save model in phone */
-            
+        let AC = UIAlertController(title: "Done", message: "Password Setting is Complete", preferredStyle: .alert)
+        let OK = UIAlertAction(title: "OK", style: .default) { Action in
+            UserDefaults.standard.set(self.PasswordTF.text, forKey: "Password")
+            UserDefaults.standard.set(self.HintTF.text, forKey: "Hint")
             self.dismiss(animated: true)
-        })
-        alertController.addAction(alertaction)
-        present(alertController, animated: true,completion: nil)
+        }
+        AC.addAction(OK)
+        present(AC, animated: true)
     }
     
+    func TextFieldCheck(TextField TF : UITextField , EmptyMessage msg : String , FieldName Name : String) -> Bool{
+        
+        if let check = TF.text?.isEmpty , check{
+            let AC = UIAlertController(title: "", message: msg, preferredStyle: .alert)
+            let OK = UIAlertAction(title: "OK", style: .default,handler: nil)
+            AC.addAction(OK)
+            present(AC, animated: true)
+            return true
+        }else if isBlank(String: TF.text!){
+            if TF != HintTF{
+                let AC = UIAlertController(title: "", message: Name + " Can't Using Space Word", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default)
+                AC.addAction(OK)
+                present(AC, animated: true)
+                return true
+            }
+        }else if TF == ConfirmTF{
+            if ConfirmTF.text != PasswordTF.text{
+                let AC = UIAlertController(title: "", message: "Password and Confirm is Different", preferredStyle: .alert)
+                let OK = UIAlertAction(title: "OK", style: .default)
+                AC.addAction(OK)
+                present(AC, animated: true)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func isBlank(String str : String) -> Bool{
+        for char in str{
+            if char.isWhitespace{
+                return true
+            }
+        }
+        return false
+    }
 }

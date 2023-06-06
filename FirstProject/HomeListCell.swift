@@ -10,19 +10,18 @@ import SnapKit
 
 class HomeListCell: UICollectionViewCell {
     
-    var BackGroundView: UIView!
+    var BackgroundView: UIView!
     var IconImageView : UIImageView!
     var TitleLabel : UILabel!
     var CopyBtn , OptionBtn : UIButton!
     
-    
     override init(frame : CGRect){
         super.init(frame : frame)
-        BackGroundView = UIView()
-        BackGroundView.backgroundColor = UIColor(cgColor: CGColor(red: 175 / 255, green: 175 / 255, blue: 175 / 255, alpha: 0.5))
-        BackGroundView.layer.cornerRadius = 10
-        self.addSubview(BackGroundView)
-        BackGroundView.snp.makeConstraints { make in
+        BackgroundView = UIView()
+        BackgroundView.backgroundColor = UIColor(cgColor: CGColor(red: 175 / 255, green: 175 / 255, blue: 175 / 255, alpha: 0.5))
+        BackgroundView.layer.cornerRadius = 10
+        self.addSubview(BackgroundView)
+        BackgroundView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -35,9 +34,9 @@ class HomeListCell: UICollectionViewCell {
         OptionBtn.tintColor = .systemYellow
         self.addSubview(OptionBtn)
         OptionBtn.snp.makeConstraints { make in
-            make.top.equalTo(BackGroundView.snp.top)
-            make.right.equalTo(BackGroundView.snp.right)
-            make.bottom.equalTo(BackGroundView.snp.bottom)
+            make.top.equalTo(BackgroundView.snp.top)
+            make.right.equalTo(BackgroundView.snp.right)
+            make.bottom.equalTo(BackgroundView.snp.bottom)
             make.width.equalTo(60)
         }
         
@@ -46,9 +45,9 @@ class HomeListCell: UICollectionViewCell {
         CopyBtn.tintColor = .white
         self.addSubview(CopyBtn)
         CopyBtn.snp.makeConstraints { make in
-            make.top.equalTo(BackGroundView.snp.top)
+            make.top.equalTo(BackgroundView.snp.top)
             make.right.equalTo(OptionBtn.snp.left)
-            make.bottom.equalTo(BackGroundView.snp.bottom)
+            make.bottom.equalTo(BackgroundView.snp.bottom)
             make.width.equalTo(60)
         }
         
@@ -57,9 +56,9 @@ class HomeListCell: UICollectionViewCell {
         IconImageView.layer.cornerRadius = 40
         self.addSubview(IconImageView)
         IconImageView.snp.makeConstraints { make in
-            make.top.equalTo(BackGroundView.snp.top).offset(15)
-            make.left.equalTo(BackGroundView.snp.left).offset(15)
-            make.bottom.equalTo(BackGroundView.snp.bottom).offset(-15)
+            make.top.equalTo(BackgroundView.snp.top).offset(15)
+            make.left.equalTo(BackgroundView.snp.left).offset(15)
+            make.bottom.equalTo(BackgroundView.snp.bottom).offset(-15)
             make.width.equalTo(50)
         }
         
