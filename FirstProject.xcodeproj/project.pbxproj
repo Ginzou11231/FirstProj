@@ -28,6 +28,7 @@
 		68FAABFB2A243AF30064783C /* CreateFolderPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABFA2A243AF30064783C /* CreateFolderPage.swift */; };
 		68FAABFF2A2452C80064783C /* FolderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAABFE2A2452C80064783C /* FolderListCell.swift */; };
 		68FAAC012A2888680064783C /* HomeListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAAC002A2888680064783C /* HomeListDetail.swift */; };
+		68FAAC032A2F2B760064783C /* GeneratorPickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FAAC022A2F2B760064783C /* GeneratorPickVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		68FAABFA2A243AF30064783C /* CreateFolderPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderPage.swift; sourceTree = "<group>"; };
 		68FAABFE2A2452C80064783C /* FolderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListCell.swift; sourceTree = "<group>"; };
 		68FAAC002A2888680064783C /* HomeListDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListDetail.swift; sourceTree = "<group>"; };
+		68FAAC022A2F2B760064783C /* GeneratorPickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorPickVC.swift; sourceTree = "<group>"; };
 		9DFD265FDBAACE9E2921E966 /* Pods_FirstProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirstProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5BA131CC56AF4F7469DA8B7 /* Pods-FirstProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.debug.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.debug.xcconfig"; sourceTree = "<group>"; };
 		F3D3E8E483A48EA928F18FFF /* Pods-FirstProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstProject.release.xcconfig"; path = "Target Support Files/Pods-FirstProject/Pods-FirstProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				68FAABFE2A2452C80064783C /* FolderListCell.swift */,
 				68FAABFA2A243AF30064783C /* CreateFolderPage.swift */,
 				68FAABE42A1188FF0064783C /* GeneratorPage.swift */,
+				68FAAC022A2F2B760064783C /* GeneratorPickVC.swift */,
 				68FAABE62A1189080064783C /* MorePage.swift */,
 				68FAABCC2A0D519F0064783C /* Main.storyboard */,
 				68FAABCF2A0D51A10064783C /* Assets.xcassets */,
@@ -249,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68FAABED2A17007A0064783C /* HomeCategoryCell.swift in Sources */,
+				68FAAC032A2F2B760064783C /* GeneratorPickVC.swift in Sources */,
 				68FAABCB2A0D519F0064783C /* SetupPage.swift in Sources */,
 				68FAABC72A0D519F0064783C /* AppDelegate.swift in Sources */,
 				68FAAC012A2888680064783C /* HomeListDetail.swift in Sources */,

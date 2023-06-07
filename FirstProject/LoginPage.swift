@@ -115,7 +115,7 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
         super.viewDidLoad()
         UIInit()
         
-        guard let pass = UserDefaults.standard.object(forKey: "Password") else {
+        guard UserDefaults.standard.object(forKey: "Password") != nil else {
             let AC = UIAlertController(title: "Welcome", message: "Please Setup Password Data", preferredStyle: .alert)
             let OK = UIAlertAction(title: "OK", style: .default) { Action in
                 if let vc = self.storyboard?.instantiateViewController(identifier: "SetupPage"){

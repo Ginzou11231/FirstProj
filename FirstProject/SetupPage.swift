@@ -20,7 +20,7 @@ class SetupPageViewController: UIViewController {
     @IBOutlet weak var Label : UILabel!
     
     var PasswordTF , ConfirmTF, HintTF : UnitTextField!
-    var TFRightBtn , ConfirmBtn : UIButton!
+    var PasswordTFBtn , ConfirmTFBtn : UIButton!
     
     func UIInit(){
         PasswordTF = UnitTextField()
@@ -66,44 +66,44 @@ class SetupPageViewController: UIViewController {
         TF.leftViewMode = .always
         
         if TF == PasswordTF{
-            TFRightBtn = UIButton()
-            TFRightBtn.isSelected = true
-            TFRightBtn.tintColor = .darkGray
-            TFRightBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-            TFRightBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            TFRightBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-            TF.rightView = TFRightBtn
+            PasswordTFBtn = UIButton()
+            PasswordTFBtn.isSelected = true
+            PasswordTFBtn.tintColor = .darkGray
+            PasswordTFBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+            PasswordTFBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            PasswordTFBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+            TF.rightView = PasswordTFBtn
             TF.rightViewMode = .always
             TF.isSecureTextEntry = true
         }else if TF == ConfirmTF{
-            ConfirmBtn = UIButton()
-            ConfirmBtn.isSelected = true
-            ConfirmBtn.tintColor = .darkGray
-            ConfirmBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
-            ConfirmBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
-            ConfirmBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
-            TF.rightView = ConfirmBtn
+            ConfirmTFBtn = UIButton()
+            ConfirmTFBtn.isSelected = true
+            ConfirmTFBtn.tintColor = .darkGray
+            ConfirmTFBtn.setImage(UIImage(systemName:"eye.fill"), for: .selected)
+            ConfirmTFBtn.setImage(UIImage(systemName:"eye.slash.fill"), for: .normal)
+            ConfirmTFBtn.addTarget(self, action: #selector(self.RightBtnAction(sender:)), for: .touchUpInside)
+            TF.rightView = ConfirmTFBtn
             TF.rightViewMode = .always
             TF.isSecureTextEntry = true
         }
     }
     
     @objc func RightBtnAction(sender:UIButton){
-        if sender == TFRightBtn{
+        if sender == PasswordTFBtn{
             if sender.isSelected{
                 PasswordTF.isSecureTextEntry = false
-                TFRightBtn.isSelected = false
+                PasswordTFBtn.isSelected = false
             }else if sender.isSelected == false{
                 PasswordTF.isSecureTextEntry = true
-                TFRightBtn.isSelected = true
+                PasswordTFBtn.isSelected = true
             }
-        }else if sender == ConfirmBtn{
+        }else if sender == ConfirmTFBtn{
             if sender.isSelected{
                 ConfirmTF.isSecureTextEntry = false
-                ConfirmBtn.isSelected = false
+                ConfirmTFBtn.isSelected = false
             }else if sender.isSelected == false{
                 ConfirmTF.isSecureTextEntry = true
-                ConfirmBtn.isSelected = true
+                ConfirmTFBtn.isSelected = true
             }
         }
     }
