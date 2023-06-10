@@ -10,13 +10,21 @@ import SnapKit
 
 protocol LoginPageDelegate{
     func SetLoginPassword(Password pw : String)
+    func ResetPassword()
+}
+
+enum PrevPageEnum : Int{
+    case Folder = 0
+    case More = 1
 }
 
 class LoginPageViewController: UIViewController , LoginPageDelegate {
     
     @IBOutlet weak var Image :UIImageView!
     
-    var DeleteCheck : Bool = false
+    var PrevPageInt : Int?
+    var MoreDelegate : MorePageDelegate!
+    
     var DeleteData : String!
     var FolderDelegate : FolderPageDelegate!
     
@@ -111,6 +119,10 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
         PasswordTF.text = pw
     }
     
+    func ResetPassword() {
+        dismiss(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UIInit()
@@ -125,14 +137,17 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
             }
             AC.addAction(OK)
             present(AC , animated: true)
-
             return
         }
         
-        if FolderDelegate != nil{
+        if PrevPageInt != nil{
             BackBtn.isHidden = false
-            DeleteCheck = true
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        PasswordTF.text = ""
     }
     
     @IBAction func DoneButton(sender:UIButton){
@@ -149,15 +164,28 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
         
         if let Check = UserDefaults.standard.object(forKey: "Password") as? String{
             if Check == PasswordTF.text{
-                if DeleteCheck {
-                    let AC = UIAlertController(title: "", message: "Folder Delete Complete", preferredStyle: .alert)
-                    let OK = UIAlertAction(title: "OK", style: .default) { Action in
-                        self.FolderDelegate.DeleteListCell(DeleteData: self.DeleteData)
-                        self.dismiss(animated: true)
-                    }
-                    AC.addAction(OK)
-                    present(AC , animated: true)
+                if let Prev = PrevPageInt{
                     
+                    switch Prev{
+                    case PrevPageEnum.Folder.rawValue:
+                        let AC = UIAlertController(title: "", message: "Folder Delete Complete", preferredStyle: .alert)
+                        let OK = UIAlertAction(title: "OK", style: .default) { Action in
+                            self.FolderDelegate.DeleteListCell(DeleteData: self.DeleteData)
+                            self.dismiss(animated: true)
+                        }
+                        AC.addAction(OK)
+                        present(AC , animated: true)
+                        
+                    case PrevPageEnum.More.rawValue:
+                        if let vc = storyboard?.instantiateViewController(withIdentifier: "SetupPage") as? SetupPageViewController{
+                            vc.modalPresentationStyle = .fullScreen
+                            vc.MoreDelegate = MoreDelegate
+                            present(vc , animated: true)
+                        }
+                        
+                    default:
+                        return
+                    }
                 }else{
                     if let tabbar = self.storyboard?.instantiateViewController(identifier:"Tabbar") as? TabbarController{
                         tabbar.modalPresentationStyle = .fullScreen

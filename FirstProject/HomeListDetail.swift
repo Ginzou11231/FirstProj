@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SafariServices
 
 protocol DetailPageDelegate{
     func UpdateData(NewData Data : ListDataModel)
@@ -22,7 +23,7 @@ class DetailTextField : UITextField{
     }
 }
 
-class HomeListDetailViewController: UIViewController , UITextFieldDelegate , DetailPageDelegate {
+class HomeListDetailViewController: UIViewController , UITextFieldDelegate , DetailPageDelegate , SFSafariViewControllerDelegate {
     
     var ModelData : ListDataModel!
     var HomeDelegate : HomePageDelegate?
@@ -273,7 +274,20 @@ class HomeListDetailViewController: UIViewController , UITextFieldDelegate , Det
     }
     
     @objc func UrlBtnAction(sender : UIButton){
-        
+        if var str = UrlIndexLabel.text{
+            
+            str = str.lowercased()
+            if str.hasPrefix("http://") == false && str.hasPrefix("https://") == false{
+                str = "http://" + str
+            }
+            
+            let SafariVC = SFSafariViewController(url: URL(string: str)!)
+            SafariVC.preferredBarTintColor = .black
+            SafariVC.preferredControlTintColor = .white
+            SafariVC.dismissButtonStyle = .close
+            SafariVC.delegate = self
+            present(SafariVC , animated: true)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

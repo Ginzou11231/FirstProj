@@ -6,8 +6,15 @@
 //
 
 import UIKit
+import Foundation
 
 class ListDataModel {
     var Image : UIImage?
     var Name , Category , Account , Password , Url , Comment: String?
+}
+
+struct ListDataStruct: Codable {
+//    let Image : UIImage
+    var Image : Data
+    var Name , Category , Account , Password , Url , Comment: String
 }

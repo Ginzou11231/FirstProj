@@ -27,6 +27,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     var CategoryArray: [String] = []
     var ShowLine : [Bool] = []
+    var FirstTime = true
     
     var SelectListArray : [ListDataModel] = []
     var ListArray : [ListDataModel] = []
@@ -127,6 +128,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
         if let indexs = tabBarController?.viewControllers?[1] as? UINavigationController{
             if let datas = indexs.topViewController as? FolderPageViewController{
                 datas.FolderArray.append(Name)
+                datas.SaveData()
                 if datas.ListCollection != nil{
                     datas.ListCollection.reloadData()
                 }
@@ -146,6 +148,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     func AddListCell(AddPageModel Model : ListDataModel){
         ListArray.append(Model)
+        SaveData()
         
         for indexs in 0..<ShowLine.count{
             if ShowLine[indexs] == true{
@@ -159,6 +162,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
         for indexs in 0..<ListArray.count{
             if ListArray[indexs].Category == Model.Category && ListArray[indexs].Name == Model.Name{
                 ListArray[indexs] = Model
+                SaveData()
                 break
             }
         }
@@ -175,6 +179,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
         for indexs in 0..<ListArray.count{
             if ListArray[indexs].Category == Model.Category && ListArray[indexs].Name == Model.Name{
                 ListArray[indexs] = NewModel
+                SaveData()
                 break
             }
         }
@@ -198,6 +203,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
         for indexs in 0..<ListArray.count{
             if ListArray[indexs].Name == NewModel.Name && ListArray[indexs].Category == NewModel.Category{
                 ListArray[indexs] = NewModel
+                SaveData()
                 break
             }
         }
@@ -214,6 +220,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
         for indexs in 0..<ListArray.count{
             if ListArray[indexs].Name == Data.Name && ListArray[indexs].Category == Data.Category{
                 ListArray.remove(at: indexs)
+                SaveData()
                 break
             }
         }
@@ -237,13 +244,77 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         UIInit()
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        if CategoryArray.count <= 1{
-            let select = IndexPath(item: 0, section: 0)
-            collectionView(CategoryCollection, didSelectItemAt: select)
+        
+        if let datas = UserDefaults.standard.object(forKey: "Screenshot"){
+            if let indexs = tabBarController?.viewControllers?[3] as? UINavigationController{
+                if let vc = indexs.topViewController as? MorePageViewController{
+                    vc.ScreenshotBool = datas as? Bool
+                }
+            }
+        }
+
+        if let datas = UserDefaults.standard.object(forKey: "Folders"){
+            if let indexs = tabBarController?.viewControllers?[1] as? UINavigationController{
+                if let vc = indexs.topViewController as? FolderPageViewController{
+                    vc.FolderArray = datas as! [String]
+                }
+            }
+        }
+
+        if let datas = UserDefaults.standard.data(forKey: "Datas"){
+            do {
+                let decoder = JSONDecoder()
+                let notes = try decoder.decode([ListDataStruct].self, from: datas)
+                
+                for i in 0..<notes.count{
+                    let ListData = ListDataModel()
+                    ListData.Image = UIImage(data: notes[i].Image)
+                    ListData.Name = notes[i].Name
+                    ListData.Category = notes[i].Category
+                    ListData.Account = notes[i].Account
+                    ListData.Password = notes[i].Password
+                    ListData.Url = notes[i].Url
+                    ListData.Comment = notes[i].Comment
+                    ListArray.append(ListData)
+                }
+            } catch {
+                print("Unable to Decode Notes (\(error))")
+            }
         }
     }
+        
+    override func viewDidAppear(_ animated: Bool) {
+        if FirstTime{
+            let select = IndexPath(item: 0, section: 0)
+            collectionView(CategoryCollection, didSelectItemAt: select)
+            FirstTime = false
+        }
+    }
+    
+
+    func SaveData(){
+        var Datas : [ListDataStruct] = []
+        
+        for i in 0..<ListArray.count{
+            let data = ListDataStruct(Image: ListArray[i].Image!.pngData()!,
+                                      Name: ListArray[i].Name!,
+                                      Category: ListArray[i].Category!,
+                                      Account: ListArray[i].Account!,
+                                      Password: ListArray[i].Password!,
+                                      Url: ListArray[i].Url!,
+                                      Comment: ListArray[i].Comment!)
+            Datas.append(data)
+        }
+        
+        do{
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(Datas)
+            UserDefaults.standard.set(data, forKey: "Datas")
+        }catch{
+            print("Unable to Encode Note (\(error))")
+        }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == CategoryCollection{
@@ -334,6 +405,8 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
             present(vc, animated: true)
         }
     }
+    
+
     
     @objc func CopyBtnAction(sender : UIButton){
         let AlertController = UIAlertController(title: "", message: "Password Copied", preferredStyle: .alert)

@@ -18,11 +18,24 @@ final class UnitTextField : UITextField{
 class SetupPageViewController: UIViewController {
     
     @IBOutlet weak var Label : UILabel!
-    
+
+    var MoreDelegate : MorePageDelegate!
     var PasswordTF , ConfirmTF, HintTF : UnitTextField!
-    var PasswordTFBtn , ConfirmTFBtn : UIButton!
+    var PasswordTFBtn , ConfirmTFBtn , BackBtn : UIButton!
     
     func UIInit(){
+        BackBtn = UIButton()
+        BackBtn.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        BackBtn.addTarget(self, action: #selector(BackBtnAction), for: .touchUpInside)
+        BackBtn.tintColor = .white
+        self.view.addSubview(BackBtn)
+        BackBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.left.equalToSuperview()
+            make.width.equalTo(65)
+            make.height.equalTo(50)
+        }
+        
         PasswordTF = UnitTextField()
         ConfirmTF = UnitTextField()
         HintTF = UnitTextField()
@@ -108,15 +121,20 @@ class SetupPageViewController: UIViewController {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @objc func BackBtnAction(sender:UIButton){
+        dismiss(animated: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
     
-    override func viewDidLoad() {
+    override func viewDidLoad(){
         super.viewDidLoad()
         UIInit()
     }
+    
     
     @IBAction func DoneButton(_ sender : UIButton){
         
@@ -136,7 +154,12 @@ class SetupPageViewController: UIViewController {
         let OK = UIAlertAction(title: "OK", style: .default) { Action in
             UserDefaults.standard.set(self.PasswordTF.text, forKey: "Password")
             UserDefaults.standard.set(self.HintTF.text, forKey: "Hint")
-            self.dismiss(animated: true)
+            
+            if let check = self.MoreDelegate{
+                check.ResetPassword()
+            }else{
+                self.dismiss(animated: true)
+            }
         }
         AC.addAction(OK)
         present(AC, animated: true)

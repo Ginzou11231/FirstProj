@@ -87,6 +87,7 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
     
     func AddListCell(FolderName Name: String) {
         FolderArray.append(Name)
+        SaveData()
         ListCollection.reloadData()
         
         if let indexs = tabBarController?.viewControllers?[0] as? UINavigationController{
@@ -101,6 +102,7 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
             if FolderArray[indexs] == Data{
                 FolderArray[indexs] = NewData
                 ListCollection.reloadData()
+                SaveData()
                 break
             }
         }
@@ -110,6 +112,7 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
                 for indexs in 0..<datas.ListArray.count{
                     if datas.ListArray[indexs].Category == Data{
                         datas.ListArray[indexs].Category = NewData
+                        datas.SaveData()
                     }
                 }
                 datas.CategoryCollection.reloadData()
@@ -122,6 +125,7 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
             if FolderArray[indexs] == Data{
                 FolderArray.remove(at: indexs)
                 ListCollection.reloadData()
+                SaveData()
                 break
             }
         }
@@ -137,6 +141,7 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
                 }
                 datas.ListArray = array
                 datas.collectionView(datas.CategoryCollection, didSelectItemAt: IndexPath(item: 0, section: 0))
+                datas.SaveData()
             }
         }
     }
@@ -146,8 +151,8 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
         UIInit()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    func SaveData(){
+        UserDefaults.standard.set(FolderArray, forKey: "Folders")
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -185,10 +190,11 @@ class FolderPageViewController: UIViewController , UICollectionViewDelegate , UI
             let AC = UIAlertController(title: "Warning" , message: "If You Delete This Folder\nWill Delete Data In This Folder\nAre You Sure Delete Folder?", preferredStyle: .alert)
             let OK = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
                 if let vc = self.storyboard?.instantiateViewController(identifier: "LoginPage") as? LoginPageViewController{
+                    
                     vc.modalPresentationStyle = .fullScreen
                     vc.DeleteData = self.FolderArray[sender.tag]
                     vc.FolderDelegate = self
-                    
+                    vc.PrevPageInt = PrevPageEnum.Folder.rawValue
                     self.present(vc , animated: true)
                 }
                 

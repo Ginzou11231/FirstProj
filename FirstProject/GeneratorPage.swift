@@ -236,6 +236,12 @@ class GeneratorPageViewController: UIViewController , UITextFieldDelegate , Gene
         super.viewDidLoad()
         UIInit()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        LengthTF.text = ""
+        PasswordTF.text = ""
+    }
 
 
 }
