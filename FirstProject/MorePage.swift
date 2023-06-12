@@ -52,10 +52,6 @@ class MorePageViewController: UIViewController , UITableViewDelegate , UITableVi
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TableViewTitles.count
     }

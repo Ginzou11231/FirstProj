@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class AddPageViewController: UIViewController , UITextViewDelegate {
+class AddPageViewController: UIViewController , UITextViewDelegate, UIImagePickerControllerDelegate , UINavigationControllerDelegate {
     
     var HomeDelegate : HomePageDelegate?
     var DetailDelegate : DetailPageDelegate?
@@ -69,6 +69,9 @@ class AddPageViewController: UIViewController , UITextViewDelegate {
         ImageBtn = UIButton()
         ImageBtn.setBackgroundImage(UIImage(named: "Searchimage"), for: .normal)
         ImageBtn.layer.cornerRadius = 50
+        ImageBtn.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+        ImageBtn.layer.borderWidth = 2
+        ImageBtn.clipsToBounds = true
         ImageBtn.addTarget(self, action: #selector(ImageBtnAction(sender:)), for: .touchUpInside)
         self.view.addSubview(ImageBtn)
         ImageBtn.snp.makeConstraints { make in
@@ -158,7 +161,24 @@ class AddPageViewController: UIViewController , UITextViewDelegate {
     }
     
     @objc func ImageBtnAction(sender:UIButton){
-        print("Search Icon Image in LocalDevice")
+//        print("Search Icon Image in LocalDevice")
+        let AC = UIAlertController(title: "Select Picture From?", message: "", preferredStyle: .actionSheet)
+        let Photos = UIAlertAction(title: "Photos", style: .default) { Action in
+            let Photo = UIImagePickerController()
+            Photo.delegate = self
+            Photo.sourceType = .photoLibrary
+            self.present(Photo , animated: true)
+        }
+        let Cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        AC.addAction(Photos)
+        AC.addAction(Cancel)
+        present(AC , animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as? UIImage
+        ImageBtn.setImage(image, for: .normal)
+        dismiss(animated: true)
     }
     
     @objc func BackBtnAction(sender:UIButton){
@@ -200,9 +220,8 @@ class AddPageViewController: UIViewController , UITextViewDelegate {
         NewDataModel.Category = CategoryTF.text
         NewDataModel.Account = AccountTF.text
         NewDataModel.Password = PasswordTF.text
-        //        if let check = self.ImageBtn.currentImage, check != UIImage(named: "Searchimage"){
         NewDataModel.Image = ImageBtn.currentBackgroundImage
-        //        }
+        
         if let check = UrlTF.text?.isEmpty , check{
             NewDataModel.Url = "None"
         }else{
@@ -374,7 +393,6 @@ class AddPageViewController: UIViewController , UITextViewDelegate {
         AC.addAction(Cancel)
         present(AC , animated: true)
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
