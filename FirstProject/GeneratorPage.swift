@@ -18,7 +18,11 @@ protocol GeneratorPageDelegate{
     func SetLength(Length int : Int)
 }
 
-class GeneratorPageViewController: UIViewController , UITextFieldDelegate , GeneratorPageDelegate {
+class GeneratorPageViewController: UIViewController , UITextFieldDelegate , GeneratorPageDelegate , UIViewControllerTransitioningDelegate {
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        PresentationController(presentedViewController: presented, presenting: presenting)
+    }
     
     var PasswordTF : UITextField!
     var GenerateBtn , CopyBtn , TFRightBtn : UIButton!
@@ -168,10 +172,12 @@ class GeneratorPageViewController: UIViewController , UITextFieldDelegate , Gene
         if textField == LengthTF{
             let PickVC = GeneratorPickVC()
             PickVC.GeneratorDelegate = self
-            
-            if let sheetPresentationController = PickVC.sheetPresentationController {
-                sheetPresentationController.detents = [.medium()]
-            }
+
+//            if let sheetPresentationController = PickVC.sheetPresentationController {
+//                sheetPresentationController.detents = [.medium()]
+//            }
+            PickVC.modalPresentationStyle = .custom
+            PickVC.transitioningDelegate = self
             
             present(PickVC ,animated: true)
             self.view.endEditing(true)

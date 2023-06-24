@@ -423,6 +423,7 @@ class HomePageViewController: UIViewController , UICollectionViewDelegate , UICo
             let vc = AddPageViewController()
             vc.HomeDelegate = self
             vc.EditModel = self.SelectListArray[sender.tag]
+            vc.isReEdit = true
             vc.modalPresentationStyle = .fullScreen
             self.present(vc , animated: true)
         }

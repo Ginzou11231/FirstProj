@@ -19,6 +19,7 @@ class SetupPageViewController: UIViewController {
     
     @IBOutlet weak var Label : UILabel!
 
+    var resetBool : Bool!
     var MoreDelegate : MorePageDelegate!
     var PasswordTF , ConfirmTF, HintTF : UnitTextField!
     var PasswordTFBtn , ConfirmTFBtn , BackBtn : UIButton!
@@ -34,6 +35,12 @@ class SetupPageViewController: UIViewController {
             make.left.equalToSuperview()
             make.width.equalTo(65)
             make.height.equalTo(50)
+        }
+        
+        if resetBool{
+            BackBtn.isHidden = false
+        }else{
+            BackBtn.isHidden = true
         }
         
         PasswordTF = UnitTextField()

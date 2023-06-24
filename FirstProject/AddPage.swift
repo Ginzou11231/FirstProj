@@ -93,6 +93,23 @@ class AddPageViewController: UIViewController , UITextViewDelegate, UIImagePicke
         SetTextField(TextField: PasswordTF, String: "Password" , SnapTarget: AccountTF)
         SetTextField(TextField: UrlTF, String: "URL" , SnapTarget: PasswordTF)
         
+        AddBtn = UIButton()
+        AddBtn.layer.cornerRadius = 20
+        AddBtn.setTitle("A D D", for: .normal)
+        AddBtn.setTitleColor(.black, for: .normal)
+        AddBtn.setTitleColor(.lightGray, for: .highlighted)
+        AddBtn.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        AddBtn.backgroundColor = .systemYellow
+        
+        AddBtn.addTarget(self, action: #selector(AddBtnAction(sender:)), for: .touchUpInside)
+        self.view.addSubview(AddBtn)
+        AddBtn.snp.makeConstraints { make in
+            make.bottom.equalTo(BackgroundView.snp.bottom).offset(-15)
+            make.left.equalTo(BackgroundView).offset(20)
+            make.right.equalTo(BackgroundView).offset(-20)
+            make.height.equalTo(40)
+        }
+        
         CommentTV = UITextView()
         CommentTV.delegate = self
         CommentTV.backgroundColor = .white
@@ -110,26 +127,8 @@ class AddPageViewController: UIViewController , UITextViewDelegate, UIImagePicke
             make.top.equalTo(UrlTF.snp.bottom).offset(20)
             make.left.equalTo(BackgroundView).offset(20)
             make.right.equalTo(BackgroundView).offset(-20)
-            make.height.equalTo(160)
+            make.bottom.equalTo(AddBtn.snp.top).offset(-15)
         }
-        
-        AddBtn = UIButton()
-        AddBtn.layer.cornerRadius = 20
-        AddBtn.setTitle("A D D", for: .normal)
-        AddBtn.setTitleColor(.black, for: .normal)
-        AddBtn.setTitleColor(.lightGray, for: .highlighted)
-        AddBtn.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        AddBtn.backgroundColor = .systemYellow
-        
-        AddBtn.addTarget(self, action: #selector(AddBtnAction(sender:)), for: .touchUpInside)
-        self.view.addSubview(AddBtn)
-        AddBtn.snp.makeConstraints { make in
-            make.top.equalTo(CommentTV.snp.bottom).offset(15)
-            make.left.equalTo(BackgroundView).offset(20)
-            make.right.equalTo(BackgroundView).offset(-20)
-            make.height.equalTo(40)
-        }
-        
     }
     
     func SetTextField(TextField TF : UITextField , String str : String , SnapTarget view : UIView){

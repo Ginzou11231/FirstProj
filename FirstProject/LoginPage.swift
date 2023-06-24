@@ -130,8 +130,9 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
         guard UserDefaults.standard.object(forKey: "Password") != nil else {
             let AC = UIAlertController(title: "Welcome", message: "Please Setup Password Data", preferredStyle: .alert)
             let OK = UIAlertAction(title: "OK", style: .default) { Action in
-                if let vc = self.storyboard?.instantiateViewController(identifier: "SetupPage"){
+                if let vc = self.storyboard?.instantiateViewController(identifier: "SetupPage") as? SetupPageViewController{
                     vc.modalPresentationStyle = .fullScreen
+                    vc.resetBool = false
                     self.present(vc , animated: true)
                 }
             }
@@ -180,6 +181,7 @@ class LoginPageViewController: UIViewController , LoginPageDelegate {
                         if let vc = storyboard?.instantiateViewController(withIdentifier: "SetupPage") as? SetupPageViewController{
                             vc.modalPresentationStyle = .fullScreen
                             vc.MoreDelegate = MoreDelegate
+                            vc.resetBool = true
                             present(vc , animated: true)
                         }
                         

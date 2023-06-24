@@ -232,6 +232,7 @@ class HomeListDetailViewController: UIViewController , UITextFieldDelegate , Det
                     vc.HomeDelegate = self.HomeDelegate
                     vc.DetailDelegate = self
                     vc.EditModel = self.ModelData
+                    vc.isReEdit = true
                     vc.modalPresentationStyle = .fullScreen
                     self.present(vc , animated: true)
                 

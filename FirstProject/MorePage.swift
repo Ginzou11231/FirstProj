@@ -19,6 +19,7 @@ class MorePageViewController: UIViewController , UITableViewDelegate , UITableVi
     var TableViewTitles : [String] = ["Change Password" , "Generate Password" , "Prevent Screenshot" , "Share App" , "Contact Us"]
     var TableView : UITableView!
     var ScreenshotBool : Bool!
+    var animeBool = true
     
     func UIInit(){
         navigationItem.title = "MORE"
@@ -115,10 +116,14 @@ class MorePageViewController: UIViewController , UITableViewDelegate , UITableVi
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: cell.contentView.bounds.height)
-        
-        UIView.animate(withDuration: 0.3,delay: 0.05 * Double(indexPath.row), animations: {
-            cell.transform = CGAffineTransform(translationX: 0, y: cell.contentView.bounds.height)
-        })
+        if animeBool{
+            cell.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: cell.contentView.bounds.height)
+            
+            UIView.animate(withDuration: 0.3,delay: 0.05 * Double(indexPath.row), animations: {
+                cell.transform = CGAffineTransform(translationX: 0, y: cell.contentView.bounds.height)
+            }) { done in
+                self.animeBool = false
+            }
+        }
     }
 }
